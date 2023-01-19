@@ -81,7 +81,7 @@ def pulsar(dimx, dimy):
                          [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],     
                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],     
                          [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0]]);
-    pos = (8,8)
+    pos = (30,30)
     cells[pos[0]:pos[0]+pattern.shape[0], pos[1]:pos[1]+pattern.shape[1]] = pattern
 
     return cells
@@ -101,6 +101,7 @@ def gosper(dimx, dimy):
     cells[pos[0]:pos[0]+pattern.shape[0], pos[1]:pos[1]+pattern.shape[1]] = pattern
     
     return cells
+
 def replicator(dimx, dimy):
     cells = np.zeros((dimy, dimx))
     pattern = np.array([[0, 0, 1, 1, 1],
@@ -112,7 +113,6 @@ def replicator(dimx, dimy):
     cells[pos[0]:pos[0]+pattern.shape[0], pos[1]:pos[1]+pattern.shape[1]] = pattern
     
     return cells
-
 
 def bomber(dimx, dimy):
     cells = np.zeros((dimy, dimx))
@@ -139,45 +139,53 @@ def bomber(dimx, dimy):
 
 
 def main(dimx, dimy, cellsize):
-    
-    print('/////Game of Life/////')
-    regra = input('Digite a regra desejada. 1 - B3/S26  ou 2 - B36/S23: ')
-
-    if(regra == 1):
-        padraoRegra1 = input('Escolha o padrao. 1 - Glider, 2 - Pulsar ou 3 - Gosper: ')
-        if(padraoRegra1 == 1):
-            cells = glider(dimx, dimy)
-            cells = B3S23(surface, cells, cellsize)
-        elif(padraoRegra1 == 2):
-            cells = pulsar(dimx, dimy)
-            cells = B3S23(surface, cells, cellsize)
-        else: 
-            if padraoRegra1 == 3:
-                cells = gosper(dimx, dimy)
-                cells = B3S23(surface, cells, cellsize)
-
-    #cells = glider(dimx, dimy)
-    #cells = pulsar(dimx, dimy)
-    #cells = gosper(dimx, dimy)  
-    #cells = replicator(dimx, dimy)  
-    #cells = bomber(dimx, dimy)  
-
- 
-    pygame.init()
-    surface = pygame.display.set_mode((dimx * cellsize, dimy * cellsize))
-    pygame.display.set_caption("Renan and Pedro's Game of Life")
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
+        print('/////Game of Life/////')
+        print('Menu de padroes: ')
+        print('[1] - Glider')
+        print('[2] - Pulsar')
+        print('[3] - Gosper')
+        print('[4] - Replicator')
+        print('[5] - Bomber')
+        print('[6] - Encerrar programa')
+        padrao = int(input('Sua opcao: '))
 
-        surface.fill(COLOR_GRID)
+        if padrao == 1:
+            cells = glider(dimx, dimy)
+        elif padrao == 2:
+            cells = pulsar(dimx, dimy)
+        elif padrao == 3:
+            cells = gosper(dimx, dimy)
+        elif padrao == 4:
+            cells = replicator(dimx, dimy)
+        elif padrao == 5:
+            cells = bomber(dimx, dimy)
+        elif padrao == 6:
+            break
+        else:
+            print('Opcao invalida') 
+                
 
-        cells = B3S23(surface, cells, cellsize)
-        #cells = B36S23(surface, cells, cellsize)
-        pygame.display.update()
+
+        pygame.init()
+        surface = pygame.display.set_mode((dimx * cellsize, dimy * cellsize))
+        pygame.display.set_caption("Renan and Pedro's Game of Life")
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+
+            surface.fill(COLOR_GRID)
+
+            
+            if padrao == 1 or padrao == 2 or padrao ==3:
+                cells = B3S23(surface, cells, cellsize)
+            else:
+                cells = B36S23(surface, cells, cellsize)
+            pygame.display.update()
 
 
 if __name__ == "__main__":
