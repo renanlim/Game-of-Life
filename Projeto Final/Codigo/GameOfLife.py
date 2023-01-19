@@ -31,7 +31,6 @@ def B3S23(screen, cells, size):
 def B36S23(screen, cells, size):
     update_cells = np.zeros((cells.shape[0], cells.shape[1]))
     
-
     for row, col in np.ndindex(cells.shape):
         num_alive = np.sum(cells[row-1:row+2, col-1:col+2]) - cells[row, col]
 
@@ -48,7 +47,6 @@ def B36S23(screen, cells, size):
             if  (num_alive == 2) or (cells[row, col] == 1 and num_alive == 6):
                 update_cells[row, col] = 0
                 color = COLOR_DIE
-
 
         color = color if cells[row, col] == 1 else COLOR_BG
         pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
@@ -188,5 +186,5 @@ def main(dimx, dimy, cellsize):
             pygame.display.update()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #tamanho do grid
     main(90, 70, 10)
